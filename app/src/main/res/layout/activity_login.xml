@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/blanco"
+    android:fitsSystemWindows="true">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="30dp"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="72dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/loguito" />
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/progressbarlogin"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_horizontal"
+            android:visibility="gone"/>
+
+        <EditText
+            android:id="@+id/emailLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="20"
+            android:hint="@string/email"
+            android:layout_marginTop="20dp"
+            android:paddingLeft="30dp"
+            android:paddingBottom="35dp"
+            android:textSize="20dp"
+            android:textColorHint="@color/negro"
+            android:inputType="textEmailAddress" />
+
+        <EditText
+            android:id="@+id/passwordLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="20"
+            android:hint="@string/contraseña"
+            android:layout_marginTop="20dp"
+            android:paddingLeft="30dp"
+            android:textSize="20dp"
+            android:paddingBottom="35dp"
+            android:textColorHint="@color/negro"
+            android:inputType="textPassword" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_login"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="24dp"
+            android:padding="12dp"
+            android:textColor="@color/blanco"
+            android:backgroundTint="@color/negro"
+            android:text="@string/login"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_registrar"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="24dp"
+            android:padding="12dp"
+            android:textColor="@color/blanco"
+            android:backgroundTint="@color/negro"
+            android:text="@string/registrate"/>
+
+
+
+    </LinearLayout>
+</ScrollView>

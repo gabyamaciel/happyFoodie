@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">The Happy Foodie</string>
+    <string name="login">INICIAR SESIÓN</string>
+    <string name="contraseña">Contraseña</string>
+    <string name="email">Email</string>
+    <string name="nombre">Nombre</string>
+    <string name="crear_cuenta">Crear cuenta</string>
+    <string name="registrate">¿Aún no tienes una cuenta? Registrate</string>
+    <string name="then_login">¿Ya tienes cuenta? Inicia sesión</string>
+    <string name="restaurantes">Restaurantes</string>
+    <string name="image_description">restaurante</string>
+    <string name="stars">stars</string>
+    <string name="log">YA TENGO CUENTA</string>
+    <string name="key">AIzaSyB44zyt9YRKAozDbpM_tqpjSRjOpszIYpg</string>
+    <string name="cerrado">Cerrado</string>
+    <string name="abierto">Abierto ahora</string>
+    <string name="rate">Calificación: </string>
+</resources>
