@@ -15,4 +15,19 @@
     <string name="cerrado">Cerrado</string>
     <string name="abierto">Abierto ahora</string>
     <string name="rate">Calificación: </string>
+    <string name="nearbyUrlBase">https://maps.googleapis.com/maps/api/place/search/json?</string>
+    <string name="statusRestaurant">El restaurante se encuentra al</string>
+    <string name="capacity">% de su capacidad</string>
+    <string name="success">SUCCESS</string>
+    <string name="signinSuccess">signInWithEmail:success</string>
+    <string name="fail">FAILED</string>
+    <string name="signinFail">signInWithEmail:failure</string>
+    <string name="failAuth">Authentication failed.</string>
+    <string name="users">users</string>
+    <string name="placeid">placeId</string>
+    <string name="placeSuccess">Place Success</string>
+    <string name="placeFoundId">Place found ID:</string>
+    <string name="placeFail">Place Failure</string>
+    <string name="placeNotFound">Place not found:</string>
+    <string name="statusCode">status code:</string>
 </resources>

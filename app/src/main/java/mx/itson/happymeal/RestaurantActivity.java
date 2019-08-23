@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.common.api.ApiException;
@@ -32,13 +33,23 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
+/**
+ * Class RestaurantActivity
+ *
+ * Shows the activity with the restaurant detailed data.
+ *
+ * Author: Gabriela Alvarez Maciel
+ */
 public class RestaurantActivity extends AppCompatActivity {
+
+    // Defining objects
     private Toolbar toolbarRe;
     private String placeId;
     private PlacesClient placesClient;
     private TextView restaurantName, restaurantCalification, restaurantAddress, restaurantPhone, restaurantCount;
     private ImageView restaurantImage;
-    private int count;
+    private LinearLayout resCapacity;
+    private int count = 0, capacity = 50;
 
     // Declare firebase objects
     private FirebaseDatabase database;
@@ -50,7 +61,7 @@ public class RestaurantActivity extends AppCompatActivity {
         setContentView(R.layout.activity_restaurant);
 
         database = FirebaseDatabase.getInstance();
-        usuariosDB = database.getReference("users");
+        usuariosDB = database.getReference(getString(R.string.users));
 
         toolbarRe = (Toolbar) findViewById(R.id.toolbarRe);
 
@@ -66,11 +77,11 @@ public class RestaurantActivity extends AppCompatActivity {
         restaurantPhone = (TextView) findViewById(R.id.restaurantPhone);
         restaurantCount = (TextView) findViewById(R.id.restaurantCount);
         restaurantImage = (ImageView) findViewById(R.id.restaurantImage);
+        resCapacity = (LinearLayout) findViewById(R.id.restaurantCapacity);
         placesClient = Places.createClient(this);
 
         Intent intent = getIntent();
-
-        placeId = intent.getStringExtra("placeId");
+        placeId = intent.getStringExtra(getString(R.string.placeid));
         List<Place.Field> placeFields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG, Place.Field.ADDRESS, Place.Field.PHONE_NUMBER, Place.Field.PHOTO_METADATAS, Place.Field.RATING);
 
         final FetchPlaceRequest fetchPlaceRequest = FetchPlaceRequest.builder(placeId, placeFields).build();
@@ -78,55 +89,13 @@ public class RestaurantActivity extends AppCompatActivity {
             @Override
             public void onSuccess(FetchPlaceResponse fetchPlaceResponse) {
                 Place place = fetchPlaceResponse.getPlace();
-                Log.i("Place Success", "Place found ID: " + placeId);
+                Log.i(getString(R.string.placeSuccess), getString(R.string.placeFoundId) + placeId);
                 restaurantName.setText(place.getName());
                 restaurantCalification.setText(place.getRating().toString());
                 restaurantAddress.setText(place.getAddress());
                 restaurantPhone.setText(place.getPhoneNumber());
 
-                usuariosDB.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        Log.i("SUCCESS COUNT", "Value is: placeId" + placeId + " currentPlace " );
-                        Iterable<DataSnapshot> children = dataSnapshot.getChildren();
-
-                        for (DataSnapshot child: children) {
-                            Users user = child.getValue(Users.class);
-                            if (placeId.equals(user.getCurrentPlace())) {
-                                count++;
-                                Log.i("CONDITION", user.getCurrentPlace());
-                            }
-
-                        }
-
-                        Log.i("COUNT", Integer.toString(count));
-                        restaurantCount.setText("Cantidad de personas: " + count);
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
-
-
-
-                usuariosDB.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        // This method is called once with the initial value and again
-                        // whenever data at this location is updated.
-                        Log.d("SUCCESS COUNT", "Value is: ");
-                        Users value = dataSnapshot.getValue(Users.class);
-                        Log.d("SUCCESS COUNT", "Value is: " + value);
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError error) {
-                        // Failed to read value
-                        Log.w("FAILED COUNT", "Failed to read values from database.", error.toException());
-                    }
-                });
+                count();
 
 
                 if (place.getPhotoMetadatas() != null) {
@@ -147,7 +116,7 @@ public class RestaurantActivity extends AppCompatActivity {
                             ApiException apiException = (ApiException) exception;
                             int statusCode = apiException.getStatusCode();
                             // Handle error with given status code.
-                            Log.e("Place Failure", "Place not found: " + exception.getMessage());
+                            Log.e(getString(R.string.placeFail), getString(R.string.placeNotFound) + exception.getMessage());
                         }
                     });
                 }
@@ -160,8 +129,8 @@ public class RestaurantActivity extends AppCompatActivity {
                     ApiException apiException = (ApiException) e;
                     apiException.printStackTrace();
                     int statusCode = apiException.getStatusCode();
-                    Log.i("Place Failure", "Place not found: " + e.getMessage());
-                    Log.i("Place Failure", "status code: " + statusCode);
+                    Log.i(getString(R.string.placeFail), getString(R.string.placeNotFound) + e.getMessage());
+                    Log.i(getString(R.string.placeFail), getString(R.string.statusCode) + statusCode);
                 }
             }
         });
@@ -176,5 +145,41 @@ public class RestaurantActivity extends AppCompatActivity {
             finish();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void count() {
+        usuariosDB.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Iterable<DataSnapshot> children = dataSnapshot.getChildren();
+
+                for (DataSnapshot child: children) {
+                    Users user = child.getValue(Users.class);
+                    if (placeId.equals(user.getCurrentPlace())) {
+                        count++;
+                    }
+
+                }
+
+                restaurantCount.setText(getString(R.string.statusRestaurant) + " " + Double.toString(calculate(count)) + getString(R.string.capacity));
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public double calculate(int count) {
+        double per = (100 / capacity) * count;
+        if (per < 35) {
+            resCapacity.setBackgroundColor(getResources().getColor(R.color.verde));
+        } else if (per <= 85) {
+            resCapacity.setBackgroundColor(getResources().getColor(R.color.amarillo));
+        } else {
+            resCapacity.setBackgroundColor(getResources().getColor(R.color.rojo));
+        }
+        return per;
     }
 }

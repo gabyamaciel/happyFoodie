@@ -1,5 +1,12 @@
 package mx.itson.happymeal.Model;
 
+/**
+ * Class Users
+ *
+ * Model for the table users
+ *
+ * Author: Gabriela Alvarez Maciel
+ */
 public class Users {
     private String nombre, email, currentPlace;
 

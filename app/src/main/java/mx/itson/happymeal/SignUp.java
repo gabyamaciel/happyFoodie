@@ -23,7 +23,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-
+/**
+ * Class SignUp
+ *
+ * Shows the form for the user to enter sign up.
+ * Once the user is signed up, it is logged in and the main activity (Restaurants) shows up.
+ *
+ * Author: Gabriela Alvarez Maciel
+ */
 public class SignUp extends AppCompatActivity implements View.OnClickListener {
     // Defining view objects
     private EditText password, name, email;
@@ -94,26 +101,6 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
                             finish();
                         }
 
-                       /* auth.signInWithEmailAndPassword(txtEmail, txtPwd).addOnCompleteListener(SignUp.this, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
-                                    Log.d("SUCCESS", "createUserWithEmail:success");
-
-                                    // Start new Intent
-                                    Intent i = new Intent(SignUp.this, Restaurants.class);
-                                    startActivity(i);
-                                    finish();
-                                } else {
-                                    // If sign in fails, display a message to the user.
-                                    Log.w("FAILED", "signInWithEmail:failure", task.getException());
-                                    Toast.makeText(SignUp.this, "Authentication failed.",
-                                            Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        }); */
-
-
                     } else {
                         Log.w("FAILED", "createUserWithEmail:failure", task.getException());
                         Toast.makeText(SignUp.this, "Ocurrió un problema al registrar usuario.", Toast.LENGTH_SHORT).show();
@@ -132,29 +119,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
                 Intent i = new Intent(SignUp.this, Restaurants.class);
                 startActivity(i);
                 finish();
-                /*
-                usuariosDB.addValueEventListener(new ValueEventListener() {
 
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-
-                        Users us = new Users(name.getText().toString(), email.getText().toString());
-                        usuariosDB.child(auth.getCurrentUser().getUid()).setValue(us);
-                        Log.i("USER REGISTER: ", "El usuario se ha registrado");
-
-                        Toast.makeText(SignUp.this, "Usuario registrado con éxito", Toast.LENGTH_SHORT).show();
-
-                        // Start new Intent
-                        Intent i = new Intent(SignUp.this, Restaurants.class);
-                        startActivity(i);
-                        finish();
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });*/
             }
 
         } else if(v.getId()== R.id.btn_backLogin){

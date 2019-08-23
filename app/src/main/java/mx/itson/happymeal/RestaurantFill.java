@@ -33,6 +33,13 @@ import java.util.ListIterator;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+/**
+ * Class RestaurantFill
+ *
+ * Shows the data of the nearby restaurants on main activity (Restaurants).
+ *
+ * Author: Gabriela Alvarez Maciel
+ */
 public class RestaurantFill extends AppCompatActivity implements View.OnClickListener {
     JSONArray restaurants;
     private String[] ids, names, rates, address;
@@ -50,13 +57,9 @@ public class RestaurantFill extends AppCompatActivity implements View.OnClickLis
         rates = new String[6];
         address = new String[6];
 
-        Log.i("NEARBY", "FOUND NEARBY PLACES: " + Integer.toString(restaurants.length()));
-
         for(int i = 0; i <= 5; i++) {
             try {
-                Log.i("NEARBY", "DENTRO DEL IF-TRY");
                 JSONObject jsonObject = restaurants.getJSONObject(i);
-                Log.i("NEARBY", "NAME: "+ jsonObject.getString("name"));
                 ids[i] = jsonObject.getString("reference");
                 names[i] = jsonObject.getString("name");
                 rates[i] = jsonObject.getString("rating");
@@ -94,17 +97,17 @@ public class RestaurantFill extends AppCompatActivity implements View.OnClickLis
         resName6.setText(names[5]);
 
         resRate1 = (TextView) activity.findViewById(R.id.restaurantRate1);
-        resRate1.setText(activity.getResources().getString(R.string.rate) + rates[0]);
+        resRate1.setText(activity.getResources().getString(R.string.rate) + " " + rates[0]);
         resRate2 = (TextView) activity.findViewById(R.id.restaurantRate2);
-        resRate2.setText(activity.getResources().getString(R.string.rate) + rates[1]);
+        resRate2.setText(activity.getResources().getString(R.string.rate) + " " + rates[1]);
         resRate3 = (TextView) activity.findViewById(R.id.restaurantRate3);
-        resRate3.setText(activity.getResources().getString(R.string.rate) + rates[2]);
+        resRate3.setText(activity.getResources().getString(R.string.rate) + " " + rates[2]);
         resRate4 = (TextView) activity.findViewById(R.id.restaurantRate4);
-        resRate4.setText(activity.getResources().getString(R.string.rate) + rates[3]);
+        resRate4.setText(activity.getResources().getString(R.string.rate) + " " + rates[3]);
         resRate5 = (TextView) activity.findViewById(R.id.restaurantRate5);
-        resRate5.setText(activity.getResources().getString(R.string.rate) + rates[4]);
+        resRate5.setText(activity.getResources().getString(R.string.rate) + " " + rates[4]);
         resRate6 = (TextView) activity.findViewById(R.id.restaurantRate6);
-        resRate6.setText(activity.getResources().getString(R.string.rate) + rates[5]);
+        resRate6.setText(activity.getResources().getString(R.string.rate) + " " + rates[5]);
 
         resAddress1 = (TextView) activity.findViewById(R.id.restaurantAddress1);
         resAddress1.setText(address[0]);

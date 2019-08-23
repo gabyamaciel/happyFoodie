@@ -156,6 +156,14 @@ public class Restaurants extends AppCompatActivity implements View.OnClickListen
                     // Opening or closing a navigation drawer
                 } else if (buttonCode == MaterialSearchBar.BUTTON_BACK) {
                     materialSearchBar.disableSearch();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            materialSearchBar.clearSuggestions();
+                        }
+                    }, 1000);
+
+                    materialSearchBar.clearSuggestions();
                 }
             }
         });
@@ -165,7 +173,6 @@ public class Restaurants extends AppCompatActivity implements View.OnClickListen
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
             }
-
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 FindAutocompletePredictionsRequest predictionsRequest = FindAutocompletePredictionsRequest.builder()
@@ -200,11 +207,7 @@ public class Restaurants extends AppCompatActivity implements View.OnClickListen
 
             @Override
             public void afterTextChanged(Editable s) {
-                /*if(materialSearchBar.isSuggestionsVisible())
-                    materialSearchBar.clearSuggestions();
-                if(materialSearchBar.isSearchEnabled())
-                    materialSearchBar.disableSearch();
-                    */
+
             }
         });
 
@@ -229,7 +232,6 @@ public class Restaurants extends AppCompatActivity implements View.OnClickListen
                 if (imm != null)
                     imm.hideSoftInputFromWindow(materialSearchBar.getWindowToken(), InputMethodManager.HIDE_IMPLICIT_ONLY);
                 String placeId = selectedPrediction.getPlaceId();
-                Log.i("DEBUGGEANDO ANDO: ID", placeId);
                 List<Place.Field> placeFields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG, Place.Field.ADDRESS, Place.Field.PHONE_NUMBER, Place.Field.PHOTO_METADATAS, Place.Field.RATING);
 
                 final FetchPlaceRequest fetchPlaceRequest = FetchPlaceRequest.builder(placeId, placeFields).build();
@@ -237,9 +239,6 @@ public class Restaurants extends AppCompatActivity implements View.OnClickListen
                     @Override
                     public void onSuccess(FetchPlaceResponse fetchPlaceResponse) {
                         Place place = fetchPlaceResponse.getPlace();
-                        //countPeople();
-
-
 
                         Log.i("Place Success", "Place found: " + place.getId());
                         Intent intent = new Intent(Restaurants.this, RestaurantActivity.class);
@@ -442,14 +441,13 @@ public class Restaurants extends AppCompatActivity implements View.OnClickListen
     }
 
     public void findRestaurants() {
-        StringBuilder stringBuilder = new StringBuilder("https://maps.googleapis.com/maps/api/place/search/json?");
+        StringBuilder stringBuilder = new StringBuilder(getString(R.string.nearbyUrlBase));
         stringBuilder.append("&location=" + currentLocation.latitude + "," + currentLocation.longitude);
         stringBuilder.append("&radius=" + 1000);
         stringBuilder.append("&types=restaurant");
         stringBuilder.append("&key=" + getResources().getString(R.string.key));
 
         String url = stringBuilder.toString();
-        Log.i("NEARBY RESTS", url);
 
         Object dataTransfer[] = new Object[2];
         dataTransfer[0] = new Object();
@@ -457,26 +455,5 @@ public class Restaurants extends AppCompatActivity implements View.OnClickListen
 
         NearbyRestaurants nearbyRestaurants = new NearbyRestaurants(this);
         nearbyRestaurants.execute(dataTransfer);
-    }
-
-    public void countPeople() {
-        Log.d("COUNT", "nasjfdsh");
-        // Read from the database
-        usuariosDB.getRef().addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-                Log.d("SUCCESS COUNT", "Value is: ");
-                Users value = dataSnapshot.getValue(Users.class);
-                Log.d("SUCCESS COUNT", "Value is: " + value);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Log.w("FAILED COUNT", "Failed to read values from database.", error.toException());
-            }
-        });
     }
 }
