@@ -96,6 +96,12 @@ public class RestaurantFill extends AppCompatActivity implements View.OnClickLis
         resName6 = (TextView) activity.findViewById(R.id.restaurantName6);
         resName6.setText(names[5]);
 
+        for(int i = 0; i < rates.length; i++) {
+            if (rates[i] == null) {
+                rates[i] = "-";
+            }
+        }
+
         resRate1 = (TextView) activity.findViewById(R.id.restaurantRate1);
         resRate1.setText(activity.getResources().getString(R.string.rate) + " " + rates[0]);
         resRate2 = (TextView) activity.findViewById(R.id.restaurantRate2);

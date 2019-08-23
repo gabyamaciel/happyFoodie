@@ -91,7 +91,10 @@ public class RestaurantActivity extends AppCompatActivity {
                 Place place = fetchPlaceResponse.getPlace();
                 Log.i(getString(R.string.placeSuccess), getString(R.string.placeFoundId) + placeId);
                 restaurantName.setText(place.getName());
-                restaurantCalification.setText(place.getRating().toString());
+                if (place.getRating() != null)
+                    restaurantCalification.setText(place.getRating().toString());
+                else
+                    restaurantCalification.setText("No calificado");
                 restaurantAddress.setText(place.getAddress());
                 restaurantPhone.setText(place.getPhoneNumber());
 
